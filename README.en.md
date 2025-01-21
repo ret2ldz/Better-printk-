@@ -1,8 +1,8 @@
 [English](README.en.md) | [简体中文](README.md)
 
-# Better_printk for IDA 9.0
+# Better printk for IDA
 When I was using IDA to reverse engineer kernel modules, I was troubled by the printk format for a long time. IDA could not automatically recognize it, and I had to manually look at each byte in the data area, which was very unintuitive and troublesome. So, this plugin was created.
-This plugin is developed based on IDAPython 9.0 and implements:
+This plugin is developed based on IDAPython 9.0, core function works properly in version 8.3, it implements:
 1. Automatically generates printk strings and kernel log levels in the pseudocode window and disassembly window when analyzing kernel drivers.
 2. Registers a new data type `printk_str` for IDA. In the data view, right-click on the pointer to select Better printk to format the output.
 

@@ -1,8 +1,8 @@
 [English](README.en.md) | [简体中文](README.md)
 
-# Better_printk for IDA 9.0
+# Better printk for IDA
 个人在使用IDA逆向内核模块的时候，由于printk格式的问题头疼很久，IDA无法自动识别，只能手动去数据区一个个字节看，很不直观且很麻烦，于是就有了这个插件。
-本插件基于IDAPython9.0开发，实现了：
+本插件基于IDAPython9.0开发，且实测8.3版本也可以使用核心功能。实现了：
 1. 分析内核驱动时自动在伪代码窗口与反汇编窗口生成printk的字符串和内核日志等级
 2. 为IDA注册了新的数据类型`printk_str`，在数据界面对调用指针右键选择Better printk即可将其格式化输出。
 
