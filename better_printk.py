@@ -92,7 +92,11 @@ class PrintkOptimizer(ida_hexrays.Hexrays_Hooks):
     def optimize_printk(self, cfunc):
         """优化printk调用"""
         if self.printk_func is None:
-            self.find_printk()
+            try:
+                self.find_printk()
+            except Exception as e:
+                print(f"Error: {e}")
+                return False
         
         # 创建并应用访问者
         visitor = PrintkVisitor(self.printk_func, self.modifications)
