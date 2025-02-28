@@ -95,7 +95,7 @@ class PrintkOptimizer(ida_hexrays.Hexrays_Hooks):
             try:
                 self.find_printk()
             except Exception as e:
-                print(f"Error: {e}")
+                print(f"Better-printk: {e}")
                 return False
         
         # 创建并应用访问者
