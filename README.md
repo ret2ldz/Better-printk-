@@ -1,28 +1,53 @@
-[English](README.en.md) | [简体中文](README.md)
+# Better-printk-IDA9 (Fork Version)
+- [eng readme](https://github.com/ret2ldz/Better-printk-/edit/main/README.en.md)
+- [中文 readme](https://github.com/ret2ldz/Better-printk-/edit/main/README.md)
+本项目是基于我同事的项目 [Better-printk-IDA9](https://github.com/ZjW1nd/Better-printk-IDA9) 的 Fork 版本，原作者为 [ZjW1nd](https://github.com/ZjW1nd)。
 
-# Better printk for IDA
-个人在使用IDA逆向内核模块的时候，由于printk格式的问题头疼很久，IDA无法自动识别，只能手动去数据区一个个字节看，很不直观且很麻烦，于是就有了这个插件。
-本插件基于IDAPython9.0开发，且实测8.3版本也可以使用核心功能。实现了：
-1. 分析内核驱动时自动在伪代码窗口与反汇编窗口生成printk的字符串和内核日志等级
-2. 为IDA注册了新的数据类型`printk_str`，在数据界面对调用指针右键选择Better printk即可将其格式化输出。
+原版 README 链接：
+- [原版中文 README](https://github.com/ZjW1nd/Better-printk-IDA9/blob/main/README.md)
+- [Original English README](https://github.com/ZjW1nd/Better-printk-IDA9/blob/main/README.en.md)
 
-# 使用方法
-## Better Printk Output
-将better_printk.py拷贝至`/$IDAdir(9.0)/plugins`目录下即可，插件会在反编译函数时自动工作，为伪代码窗口和反汇编窗口生成相关注释显示printk的内容和内核日志等级。
-![better_printk](/assets/operation2.gif)
+---
 
-## Optimize printk str
-右键单击数据窗口的字符串，直接转化为printk即可
-![turn_data_into_printkstr](/assets/operation.gif)
+## 新增功能
 
+在原版功能基础上，本 Fork 增加了以下功能：
 
-# 注意事项/潜在BUG
+1. **支持 `printk` 参数为局部变量的情况**  
+   - 自动回溯变量赋值链，提取字符串地址
+   - 兼容 `v0 = v1; v1 = 0x1234; printk(v0);` 这种多层赋值形式、例如下方的情况
 
-1. 对于伪代码界面注释，IDA并没有提供一个很好的API，无法从地址匹配到伪代码行（对输出伪代码的操作只能是文本操作）。因此注释的匹配是按照IDA反编译函数的调用顺序来的，**如果**出现CTree中printk调用在前而伪代码界面包含printk的行在后，则注释的顺序会出现问题。此时参考汇编界面的优化输出即可。
+```
+  {
+    v11 = 1024;
+    if ( a3 < 0x400 )
+      v11 = a3;
+    _check_object_size(v9, v11, 1);
+    if ( !copy_to_user(a2, v9, v11) )
+      goto LABEL_7;
+    v11 = -14;
+    v13 = &unk_6DF;
+  }
+  else
+  {
+    v11 = -12;
+    v13 = &unk_68B;
+  }
+  printk(v13);
+```
 
-2. 对于IDA版本在9.0以下的（作者个人有8.3版本），数据结构注册部分由于api的冲突存在问题，反编译hook部分可以正常使用（至少在8.3）
+2. **支持多个可能字符串地址的解析**  
+   - 如果变量在函数中多次被赋值不同地址，全部解析并提取字符串
+    
+3. **优化了部分printk被解析成_printk时无法提取字符串的bug**
+   - 详见demo，您可以使用demo测试
+---
 
-# 其他
-本人制作此插件纯属心血来潮（没想到github上居然没有相关内容），欢迎各路师傅对此插件做优化修改或在其模板上进行二次开发。
+## 未来计划
 
-感谢Cursor与deepseek-v3。
+- [ ] 更多复杂表达式解析
+- [ ] 内联汇编中的字符串解析
+- [ ] 多线程 / 异步 `printk` 调用支持
+- [ ] 更多的功能，例如在编译优化成冷代码“_cold_”的解析与源代码的合并
+
+如果您对ida插件编写和kernel pwn感兴趣，也欢迎联系我！
