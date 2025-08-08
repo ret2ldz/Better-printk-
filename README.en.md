@@ -1,27 +1,52 @@
-[English](README.en.md) | [简体中文](README.md)
+# Better-printk-IDA9 (Fork Version)
 
-# Better printk for IDA
-When I was using IDA to reverse engineer kernel modules, I was troubled by the printk format for a long time. IDA could not automatically recognize it, and I had to manually look at each byte in the data area, which was very unintuitive and troublesome. So, this plugin was created.
-This plugin is developed based on IDAPython 9.0, core function works properly in version 8.3, it implements:
-1. Automatically generates printk strings and kernel log levels in the pseudocode window and disassembly window when analyzing kernel drivers.
-2. Registers a new data type `printk_str` for IDA. In the data view, right-click on the pointer to select Better printk to format the output.
+This project is a fork of my colleague's project [Better-printk-IDA9](https://github.com/ZjW1nd/Better-printk-IDA9), originally created by [ZjW1nd](https://github.com/ZjW1nd).
 
-# Usage
-## Better Printk Output
-Copy `better_printk.py` into the `/$IDAdir(9.0)/plugins` directory, and the plugin will automatically work when decompiling functions, generating related comments to display the content and kernel log level of printk in the pseudocode window and disassembly window.
-![better_printk](/assets/operation2.gif)
+Original README links:
+- [Chinese README](https://github.com/ZjW1nd/Better-printk-IDA9/blob/main/README.md)
+- [English README](https://github.com/ZjW1nd/Better-printk-IDA9/blob/main/README.en.md)
 
-## Optimize printk str
-Right-click on the string in the data window to directly convert it to printk.
-![turn_data_into_printkstr](/assets/operation.gif)
+---
 
-# Notes/Potential Bugs
+## New Features
 
-1. For pseudocode interface comments, IDA **does not** provide a good API to match the pseudocode line from the address (operations about output pseudocode can only modify the raw text). Therefore, the matching of comments is based on the order of function calls decompiled by IDA. **If** the printk call in the CTree appears before the line containing printk in the pseudocode interface, the order of comments will be problematic. In this case, refer to the optimized output of the **assembly** interface.
+Based on the original functionality, this fork introduces the following improvements:
 
-2. For IDA versions below 9.0 (the author personally uses version 8.3), there are problems with the data structure registration part due to API conflicts, but the decompilation hook part can be used normally (at least in version 8.3).
+1. **Support for cases where the `printk` argument is a local variable**  
+   - Automatically backtracks the variable assignment chain to extract the string address.
+   - Supports multi-level assignments like `v0 = v1; v1 = 0x1234; printk(v0);`  
+     Example:
+```c
+{
+    v11 = 1024;
+    if (a3 < 0x400)
+        v11 = a3;
+    _check_object_size(v9, v11, 1);
+    if (!copy_to_user(a2, v9, v11))
+        goto LABEL_7;
+    v11 = -14;
+    v13 = &unk_6DF;
+}
+else
+{
+    v11 = -12;
+    v13 = &unk_68B;
+}
+printk(v13);
+```
+  2. **Support for multiple possible string addresses**
+    - If a variable is assigned different addresses multiple times in a function, all of them will be parsed and extracted.
+     
+  3. **Fixed a bug where some printk calls were optimized into _printk and failed to extract strings**
+    - See the demo for details; you can use the demo to test this fix.
 
-# Others
-As a student, I made this plugin just on impulse. Everyone is welcome to optimize and modify this plugin or perform secondary development based on its template.
+## Future Plans
+ - More complex expression parsing
 
-Also, thanks for Cursor and deepseek-v3.
+ - String extraction from inline assembly
+
+ - Multi-threaded / asynchronous printk call support
+
+ - Additional features such as parsing code optimized into cold sections (_cold_) and merging with source code
+
+If you are interested in IDA plugin development or kernel pwn, feel free to contact me!
