@@ -37,13 +37,25 @@
     v13 = &unk_68B;
   }
   printk(v13);
-```
+```c
 
 2. **支持多个可能字符串地址的解析**  
-   - 如果变量在函数中多次被赋值不同地址，全部解析并提取字符串
-    
+   - 如果变量在函数中多次被赋值不同地址，全部解析并提取字符串,如下所示，您可以在调试信息里找到它
+
+```
+[better_printk] Found printk @ 0x133, extract: KERN_INFO, "[kbook:] Failed to copy data back to user space!\n"
+[better_printk] Found printk @ 0x133, extract: KERN_ALERT, "[kbook:] RUN OUT OF ALL MEMORY!\n"
+```
+
 3. **优化了部分printk被解析成_printk时无法提取字符串的bug**
-   - 详见demo，您可以使用demo测试
+   - 如下所示
+```
+.text:0000000000000100 loc_100:                                ; CODE XREF: kbook_read+19↑j
+.text:0000000000000100                 mov     rdi, offset unk_6B4
+.text:0000000000000107                 call    _printk         ; KERN_ERR, "[kbook:] You should firstly get a book!\n"
+```
+
+   - demo由上面相关的例子，您可以使用demo测试
 ---
 
 ## 未来计划
