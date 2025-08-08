@@ -34,12 +34,22 @@ else
 }
 printk(v13);
 ```
+
   2. **Support for multiple possible string addresses**
-    - If a variable is assigned different addresses multiple times in a function, all of them will be parsed and extracted.
-     
+    - If a variable is assigned different addresses multiple times in a function, all of them will be parsed and extracted. U can find it in debuf Info~
+     Example:
+```
+[better_printk] Found printk @ 0x133, extract: KERN_INFO, "[kbook:] Failed to copy data back to user space!\n"
+[better_printk] Found printk @ 0x133, extract: KERN_ALERT, "[kbook:] RUN OUT OF ALL MEMORY!\n"
+```
+
   3. **Fixed a bug where some printk calls were optimized into _printk and failed to extract strings**
     - See the demo for details; you can use the demo to test this fix.
-
+```
+.text:0000000000000100 loc_100:                                ; CODE XREF: kbook_read+19↑j
+.text:0000000000000100                 mov     rdi, offset unk_6B4
+.text:0000000000000107                 call    _printk         ; KERN_ERR, "[kbook:] You should firstly get a book!\n"
+```
 ## Future Plans
  - More complex expression parsing
 
