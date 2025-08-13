@@ -1,4 +1,4 @@
-# Better-printk-IDA9 (Fork Version)
+# KPwnHelper (Fork from ZjW1nd/Better-printk-IDA9)
 
 This project is a fork of my colleague's project [Better-printk-IDA9](https://github.com/ZjW1nd/Better-printk-IDA9), originally created by [ZjW1nd](https://github.com/ZjW1nd).
 
