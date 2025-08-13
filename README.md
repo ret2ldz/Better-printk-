@@ -1,4 +1,4 @@
-# Better-printk-IDA9 (Fork Version)
+# KPwnHelper (Fork by ZjW1nd/Better-printk-IDA9)
 - [eng readme](https://github.com/ret2ldz/Better-printk-/blob/main/README.en.md)
 - [中文 readme](https://github.com/ret2ldz/Better-printk-/blob/main/README.md)
 
