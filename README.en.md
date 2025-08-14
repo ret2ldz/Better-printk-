@@ -6,6 +6,8 @@ Original README links:
 - [Chinese README](https://github.com/ZjW1nd/Better-printk-IDA9/blob/main/README.md)
 - [English README](https://github.com/ZjW1nd/Better-printk-IDA9/blob/main/README.en.md)
 
+Due to the significant version gap between the IDA APIs provided by Hexray, this version is only compatible with IDA9 and similar versions. Compatibility with other versions may be added in the future.
+
 ---
 
 ## New Features
@@ -50,6 +52,12 @@ printk(v13);
 .text:0000000000000100                 mov     rdi, offset unk_6B4
 .text:0000000000000107                 call    _printk         ; KERN_ERR, "[kbook:] You should firstly get a book!\n"
 ```
+
+   4. **Added parameter parsing for kmalloc_trace function**
+   - As shown below (In addition, the flag parameter parsing plugin will first match common combination macros, then mask bits).
+![](./assets/malloc_trace.png)
+
+
 ## Future Plans
  - More complex expression parsing
 
