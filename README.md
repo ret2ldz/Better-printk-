@@ -18,6 +18,7 @@
 
 在原版功能基础上，本 Fork 增加了以下功能：
 
+
 1. **支持 `printk` 参数为局部变量的情况**  
    - 自动回溯变量赋值链，提取字符串地址
    - 兼容 `v0 = v1; v1 = 0x1234; printk(v0);` 这种多层赋值形式、例如下方的情况
@@ -41,6 +42,7 @@
   printk(v13);
 ```
 
+
 2. **支持多个可能字符串地址的解析**  
    - 如果变量在函数中多次被赋值不同地址，全部解析并提取字符串,如下所示，您可以在调试信息里找到它
 
@@ -48,6 +50,7 @@
 [better_printk] Found printk @ 0x133, extract: KERN_INFO, "[kbook:] Failed to copy data back to user space!\n"
 [better_printk] Found printk @ 0x133, extract: KERN_ALERT, "[kbook:] RUN OUT OF ALL MEMORY!\n"
 ```
+
 
 3. **优化了部分printk被解析成_printk时无法提取字符串的bug**
    - 如下所示
@@ -59,9 +62,10 @@
 
    - demo由上面相关的例子，您可以使用demo测试
 
-3. **增加了kmalloc_trace等函数的size和flag解析**
+
+4. **增加了kmalloc_trace等函数的size和flag解析**
    - 如下图所示（另外地，对于flag参数的解析插件会首先匹配常见的组合宏，其次才会匹配掩码位）
-![]()
+![](./assets/malloc_trace.png)
 
    - demo由上面相关的例子，您可以使用demo测试
 ---
