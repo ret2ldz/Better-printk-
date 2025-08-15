@@ -88,6 +88,5 @@ Get Value kmalloc_caches:10
 - [ ] 更多复杂表达式和函数的参数解析
 - [ ] 一键识别fops
 - [ ] 支持导出dump功能，导出会规范伪代码的格式并合并cold代码，使您可以直接dump出更加标准、近c的代码直接用于您的LKM
-- [ ] 
 
 如果您对ida插件编写和kernel pwn感兴趣，也欢迎联系我！
