@@ -52,7 +52,7 @@
 ```
 
 
-3. **优化了部分printk被解析成_printk时无法提取字符串的bug**
+3. **优化了部分 `printk` 被解析成 `_printk` 时无法提取字符串的bug**
    - 如下所示
 ```
 .text:0000000000000100 loc_100:                                ; CODE XREF: kbook_read+19↑j
@@ -62,7 +62,11 @@
 
 
 
-4. **增加了kmalloc_trace等函数的size和flag解析**
+4. **增加了 `kmalloc_trace` 函数的size和flag解析**
+   - 如下图所示（另外地，对于flag参数的解析插件会首先匹配常见的组合宏，其次才会匹配掩码位）
+![](./assets/malloc_trace.png)
+
+5. **增加了 `_kmalloc_cache_noprof` 函数的size和flag解析**
    - 如下图所示（另外地，对于flag参数的解析插件会首先匹配常见的组合宏，其次才会匹配掩码位）
 ![](./assets/malloc_trace.png)
 
