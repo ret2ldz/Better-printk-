@@ -346,8 +346,12 @@ class KernelCallVisitor(ida_hexrays.ctree_visitor_t):
                     return 0
                 # 第一个参数：cachep（可以是数组/指针表达式）
                 cachep_expr = call_expr.a[0]
-                cachep_arg = cachep_expr.x.print1(None)
-                cachep_arg1 = cachep_expr.y.print1(None)
+                if cachep_expr and hasattr(cachep_expr, "x") and cachep_expr.x:
+                    cachep_arg = cachep_expr.x.print1(None)
+                else: return 0
+                if cachep_expr and hasattr(cachep_expr, "y") and cachep_expr.y:
+                    cachep_arg1 = cachep_expr.y.print1(None)
+                else: return 0
                 get1 = cachep_arg1.split(' ', 1)[1]
                 get0 = cachep_arg.split('"', 1)[1]
                 print(f"Get Value {get0[:14]}:{get1}")
