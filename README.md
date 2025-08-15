@@ -46,7 +46,7 @@
 2. **支持多个可能字符串地址的解析**  
    - 如果变量在函数中多次被赋值不同地址，全部解析并提取字符串,如下所示，您可以在调试信息里找到它
 
-```
+```c
 [better_printk] Found printk @ 0x133, extract: KERN_INFO, "[kbook:] Failed to copy data back to user space!\n"
 [better_printk] Found printk @ 0x133, extract: KERN_ALERT, "[kbook:] RUN OUT OF ALL MEMORY!\n"
 ```
@@ -54,7 +54,7 @@
 
 3. **优化了部分 `printk` 被解析成 `_printk` 时无法提取字符串的bug**
    - 如下所示
-```
+```c
 .text:0000000000000100 loc_100:                                ; CODE XREF: kbook_read+19↑j
 .text:0000000000000100                 mov     rdi, offset unk_6B4
 .text:0000000000000107                 call    _printk         ; KERN_ERR, "[kbook:] You should firstly get a book!\n"
@@ -64,7 +64,7 @@
 4. **增加了 `kmalloc_trace` 函数的size和flag解析**
    - 如下图所示（另外地，对于flag参数的解析插件会首先匹配常见的组合宏，其次才会匹配掩码位）
 ![](./assets/malloc_trace.png)
-```
+```c
 Get Value kmalloc_caches:3 
 3264 
 0xcc0
@@ -75,7 +75,7 @@ Get Value kmalloc_caches:3
    - 如下图所示
 ![](./assets/malloc_cache.png)
    - 您可以在ida控制台看到这样的调试信息
-```
+```c
 Get Value kmalloc_caches:10
 3520 
 0xdc0
