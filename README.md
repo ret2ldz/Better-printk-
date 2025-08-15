@@ -68,7 +68,7 @@
 
 5. **增加了 `_kmalloc_cache_noprof` 函数的size和flag解析**
    - 如下图所示（另外地，对于flag参数的解析插件会首先匹配常见的组合宏，其次才会匹配掩码位）
-![](./assets/malloc_trace.png)
+![](./assets/malloc_cache.png)
 
 
 ---
