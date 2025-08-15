@@ -61,23 +61,33 @@
 ```
 
 
-
 4. **增加了 `kmalloc_trace` 函数的size和flag解析**
    - 如下图所示（另外地，对于flag参数的解析插件会首先匹配常见的组合宏，其次才会匹配掩码位）
 ![](./assets/malloc_trace.png)
+```
+Get Value kmalloc_caches:3 
+3264 
+0xcc0
+[better_alloc] kmalloc_trace @size=8 @flag=GFP_KERNEL| @ 0x1129
+```
 
 5. **增加了 `_kmalloc_cache_noprof` 函数的size和flag解析**
-   - 如下图所示（另外地，对于flag参数的解析插件会首先匹配常见的组合宏，其次才会匹配掩码位）
+   - 如下图所示
 ![](./assets/malloc_cache.png)
-
-
+   - 您可以在ida控制台看到这样的调试信息
+```
+Get Value kmalloc_caches:10
+3520 
+0xdc0
+[better_alloc] kmalloc_trace @size=1024 @flag=GFP_KERNEL|__GFP_ZERO| @ 0x3ff42
+```
 ---
 
 ## 未来计划
 
 - [ ] 更多复杂表达式和函数的参数解析
-- [ ] 内联汇编中的字符串解析
-- [ ] 多线程 / 异步 `printk` 调用支持
-- [ ] 更多的功能，例如在编译优化成冷代码“_cold_”的解析与源代码的合并
+- [ ] 一键识别fops
+- [ ] 支持导出dump功能，导出会规范伪代码的格式并合并cold代码，使您可以直接dump出更加标准、近c的代码直接用于您的LKM
+- [ ] 
 
 如果您对ida插件编写和kernel pwn感兴趣，也欢迎联系我！
