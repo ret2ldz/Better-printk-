@@ -341,7 +341,7 @@ class KernelCallVisitor(ida_hexrays.ctree_visitor_t):
                 return 0
 
             target_name = self.target_eas.get(called.obj_ea)
-            if target_name == "kmalloc_trace": #more ...
+            if target_name == "kmalloc_trace" or "_kmalloc_cache_noprof": #more ...
                 if not call_expr.a or len(call_expr.a) < 2:
                     return 0
                 # 第一个参数：cachep（可以是数组/指针表达式）
