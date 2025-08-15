@@ -60,14 +60,13 @@
 .text:0000000000000107                 call    _printk         ; KERN_ERR, "[kbook:] You should firstly get a book!\n"
 ```
 
-   - demo由上面相关的例子，您可以使用demo测试
 
 
 4. **增加了kmalloc_trace等函数的size和flag解析**
    - 如下图所示（另外地，对于flag参数的解析插件会首先匹配常见的组合宏，其次才会匹配掩码位）
 ![](./assets/malloc_trace.png)
 
-   - demo由上面相关的例子，您可以使用demo测试
+
 ---
 
 ## 未来计划
